@@ -17,7 +17,7 @@
 #include <linux/leds.h>
 #include <linux/module.h>
 #include <linux/mutex.h>
-#include <linux/power_supply.h>
+//#include <linux/power_supply.h>
 #include <linux/spinlock.h>
 #include "hid-ids.h"
 #include "hid-wiimote.h"
@@ -1159,7 +1159,7 @@ static void wiimote_destroy(struct wiimote_data *wdata)
 	wiiext_deinit(wdata);
 	wiimote_leds_destroy(wdata);
 
-	power_supply_unregister(&wdata->battery);
+	//power_supply_unregister(&wdata->battery);
 	input_unregister_device(wdata->accel);
 	input_unregister_device(wdata->ir);
 	input_unregister_device(wdata->input);
@@ -1220,13 +1220,15 @@ static int wiimote_hid_probe(struct hid_device *hdev,
 	wdata->battery.type = POWER_SUPPLY_TYPE_BATTERY;
 	wdata->battery.use_for_apm = 0;
 
-	ret = power_supply_register(&wdata->hdev->dev, &wdata->battery);
+	/*
+  ret = power_supply_register(&wdata->hdev->dev, &wdata->battery);
 	if (ret) {
 		hid_err(hdev, "Cannot register battery device\n");
 		goto err_battery;
 	}
 
 	power_supply_powers(&wdata->battery, &hdev->dev);
+  */
 
 	ret = wiimote_leds_create(wdata);
 	if (ret)
